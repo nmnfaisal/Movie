@@ -3,16 +3,17 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
     id ("dagger.hilt.android.plugin")
+    id ("androidx.navigation.safeargs")
 }
 
 android {
     namespace = "com.noman.movie"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.noman.movie"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -35,6 +36,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures{
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -46,22 +50,20 @@ dependencies {
 
     implementation ("com.google.ar:core:1.25.0")
 
-    val ktxVersion = "1.7.0"
+    val ktxVersion = "1.8.0"
     implementation ("androidx.core:core-ktx:$ktxVersion")
 
     val lifecycle_version = "2.5.1"
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
 
-    val activity_compose_version = "1.5.1"
-    implementation ("androidx.activity:activity-compose:$activity_compose_version")
-
-    val coil_version = "2.1.0"
-    implementation ("io.coil-kt:coil-compose:$coil_version")
-
     val room_version = "2.3.0"
     implementation ("androidx.room:room-runtime:$room_version")
     kapt ("androidx.room:room-compiler:$room_version")
     implementation ("androidx.room:room-ktx:$room_version")
+
+    val nav_version = "2.3.5"
+    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     val hilt_version = "2.42"
     implementation ("com.google.dagger:hilt-android:$hilt_version")
@@ -79,6 +81,15 @@ dependencies {
     val accompanist_version = "0.19.0"
     implementation ("com.google.accompanist:accompanist-swiperefresh:$accompanist_version")
     implementation ("com.google.accompanist:accompanist-pager-indicators:$accompanist_version")
+
+    val paging_version = "3.1.0"
+    implementation("androidx.paging:paging-runtime-ktx:$paging_version")
+    implementation("androidx.paging:paging-common-ktx:$paging_version")
+
+
+    val glide_version = "4.13.0"
+    implementation("com.github.bumptech.glide:glide:$glide_version")
+    kapt("com.github.bumptech.glide:compiler:$glide_version")
 
 
     /**
