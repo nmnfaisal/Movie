@@ -20,4 +20,14 @@ object Modules{
         return RetrofitClient.retrofit
     }
 
+    @Provides
+    @Singleton
+    fun providesMovieService(retrofit: Retrofit): MovieService {
+        return retrofit.create(MovieService::class.java)
+    }
+
+    @Provides
+    fun provideMovieRepository(movieInterface: MovieService): MovieDetailsRepository {
+        return MovieDetailsRepository(movieInterface)
+    }
 }
