@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:src="@color/black"
-                app:load="@{movie.poster_path}" />
+                app:load="@{movie}" />
 
             <TextView
                 android:id="@+id/movie_title"

@@ -13,9 +13,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MovieFragment : Fragment() {
-    lateinit var binding: FragmentMovieBinding
+    private lateinit var binding: FragmentMovieBinding
     val viewModel: MovieViewModel by viewModels()
-    val movieAdapter = MoviePagingAdapter()
+    private val movieAdapter = MoviePagingAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

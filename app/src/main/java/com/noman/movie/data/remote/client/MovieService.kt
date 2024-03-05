@@ -12,17 +12,17 @@ interface MovieService {
     @GET("movie/popular?")
     suspend fun getMovies(
         @Query("api_key")apiKey: String,
-    ):Response<MovieResponse >
+    ):Response<MovieResponse>
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
         @Path("movie_id") movieId: String,
         @Query("api_key") apiKey: String
-    ):Response<MovieDetails >
+    ):Response<MovieDetails>
 
     @GET("search/movie?")
     suspend fun searchMovies(
         @Query("api_key")apiKey: String,
         @Query("query") query: String
-    ):Response<MovieResponse >
+    ):Response<MovieResponse>
 }

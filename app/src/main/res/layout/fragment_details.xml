@@ -40,7 +40,7 @@
                         android:layout_height="400dp"
                         android:scaleType="centerCrop"
                         android:background="@color/black"
-                        app:load="@{movieDetails.poster_path}" />
+                        app:loadDetailImage="@{movieDetails}" />
 
                     <ImageView
                         android:id="@+id/back_press"

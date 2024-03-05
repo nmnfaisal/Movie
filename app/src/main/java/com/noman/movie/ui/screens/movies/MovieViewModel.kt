@@ -1,5 +1,6 @@
 package com.noman.movie.ui.screens.movies
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.liveData
+import com.noman.movie.data.local.dao.MovieDao
 import com.noman.movie.data.remote.client.MovieService
 import com.noman.movie.data.remote.dto.MovieDetails
 import com.noman.movie.data.repository.MovieDetailsRepository
@@ -23,7 +25,8 @@ class MovieViewModel
 
 @Inject constructor(
     private val movieService: MovieService,
-    private val repository: MovieDetailsRepository
+    private val repository: MovieDetailsRepository,
+    private val movieDao: MovieDao
 ) : ViewModel() {
 
     private val query = MutableLiveData<String>("")
@@ -41,7 +44,21 @@ class MovieViewModel
     }
 
     fun getMovieDetails(movieID: String) = viewModelScope.launch {
+
+        val movieDetails = repository.getMovieDetails(movieID)
+
+        with(movieDao) {
+            try {
+//                removeAll()
+                insertMovie(repository.getMovieDetailsObject())
+                Log.d("getRowCount", getRowCount().toString())
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
         _movieDetails.postValue(Events(com.noman.movie.utils.Result(Status.LOADING, null, null)))
-        _movieDetails.postValue(Events(repository.getMovieDetails(movieID)))
+        _movieDetails.postValue(Events(movieDetails))
     }
 }
