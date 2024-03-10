@@ -6,7 +6,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.ByteArrayOutputStream
 
-@Entity(tableName = "MOVIES")
 data class MovieDetails(
     val adult: Boolean,
     val backdrop_path: String,

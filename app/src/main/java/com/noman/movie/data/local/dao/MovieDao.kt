@@ -4,13 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.noman.movie.data.remote.dto.MovieDetails
+import com.noman.movie.data.remote.dto.Movie
 
 @Dao
 interface MovieDao{
 
     @Query("SELECT * FROM MOVIES")
-    fun getAllMovies(): MovieDetails
+    fun getAllMovies(): List<Movie>
 
     @Query("DELETE FROM MOVIES")
     fun removeAll()
@@ -19,5 +19,5 @@ interface MovieDao{
     fun getRowCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovie(movieDetails: MovieDetails)
+    fun insertMovie(movie: Movie)
 }

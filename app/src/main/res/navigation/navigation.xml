@@ -22,8 +22,7 @@
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
         <argument
-            android:name="movieID"
-            app:argType="string"
-            app:nullable="true"/>
+            android:name="movie"
+            app:argType="com.noman.movie.data.remote.dto.Movie"/>
     </fragment>
 </navigation>

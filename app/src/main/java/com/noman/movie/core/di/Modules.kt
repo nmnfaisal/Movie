@@ -32,8 +32,8 @@ object Modules{
     }
 
     @Provides
-    fun provideMovieRepository(movieInterface: MovieService): MovieDetailsRepository {
-        return MovieDetailsRepository(movieInterface)
+    fun provideMovieRepository(movieInterface: MovieService, movieDao: MovieDao): MovieDetailsRepository {
+        return MovieDetailsRepository(movieInterface, movieDao )
     }
 
     @Provides
