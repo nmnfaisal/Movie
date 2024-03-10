@@ -1,6 +1,6 @@
 # Small World Test
 
-This test project contains all functionality that was requested in the document, along with some unit tests and UI tests for the activity that the project contains. More details are mentioned below.
+This test project contains all functionality that was requested in the document, along with some unit tests. More details are mentioned below.
 
 ### Developed Using
 - Kotlin
