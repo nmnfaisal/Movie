@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.noman.movie.R
@@ -13,14 +14,15 @@ import com.noman.movie.databinding.FragmentDetailsBinding
 import com.noman.movie.ui.screens.movies.MovieViewModel
 import com.noman.movie.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
-    lateinit var binding: FragmentDetailsBinding
-    val args: DetailsFragmentArgs by navArgs()
-    val viewModel: MovieViewModel by viewModels()
+    private lateinit var binding: FragmentDetailsBinding
+    private val args: DetailsFragmentArgs by navArgs()
+    private val viewModel: MovieViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,27 +38,25 @@ class DetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        viewModel.getMovieDetails(args.movieID!!)
+        viewModel.getMovieDetails(args.movie)
 
-        viewModel.movieDetails.observe(viewLifecycleOwner) {
-
-            when (it.getContentIfNotHandled()?.status) {
-
-                Status.LOADING -> {
-                    binding.detailsProgress.visibility = View.VISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.movieDetails.collect { event ->
+                when (event.getContentIfNotHandled()?.status) {
+                    Status.LOADING -> {
+                        binding.detailsProgress.visibility = View.VISIBLE
+                    }
+                    Status.ERROR -> {
+                        binding.detailsProgress.visibility = View.GONE
+                    }
+                    Status.SUCCESS -> {
+                        binding.detailsProgress.visibility = View.GONE
+                        binding.movieDetails = event.peekContent().data
+                    }
+                    else -> {}
                 }
-
-                Status.ERROR -> {
-                    binding.detailsProgress.visibility = View.GONE
-                }
-
-                Status.SUCCESS -> {
-                    binding.detailsProgress.visibility = View.GONE
-                    binding.movieDetails = it.peekContent().data
-                }
-
-                else -> {}
             }
         }
+
     }
 }

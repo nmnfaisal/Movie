@@ -5,17 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.noman.movie.databinding.FragmentMovieBinding
+import com.noman.movie.utils.ConnectivityObserver
+import com.noman.movie.utils.NetworkConnectivityObserver
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieFragment : Fragment() {
     private lateinit var binding: FragmentMovieBinding
     val viewModel: MovieViewModel by viewModels()
     private val movieAdapter = MoviePagingAdapter()
+    private lateinit var connectivityObserver: ConnectivityObserver
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +34,18 @@ class MovieFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.moviesProgress.isVisible = true
         setRecyclerView()
+        connectivityObserver = NetworkConnectivityObserver(requireContext().applicationContext)
+        observeConnectivity()
+
+        lifecycleScope.launch {
+            viewModel.movieList.collect { pagingData ->
+                binding.moviesProgress.isVisible = false
+                movieAdapter.submitData(pagingData)
+            }
+        }
+
         binding.movieSearch.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -43,12 +62,10 @@ class MovieFragment : Fragment() {
                 return true
             }
         })
+
         movieAdapter.onMovieClick {
             val action = MovieFragmentDirections.actionMovieFragmentToDetailsFragment(it)
             findNavController().navigate(action)
-        }
-        viewModel.list.observe(viewLifecycleOwner) {
-            movieAdapter.submitData(lifecycle, it)
         }
     }
 
@@ -59,5 +76,44 @@ class MovieFragment : Fragment() {
         }
     }
 
+    private fun observeConnectivity() {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                connectivityObserver.observe()
+                    .collect { status ->
+                        updateNetworkStatus(status)
+                    }
+            }
+        }
+    }
 
+    private fun updateNetworkStatus(status: ConnectivityObserver.Status) {
+        when (status) {
+            ConnectivityObserver.Status.Available -> {
+                binding.networkStatusTextView.text = "Network status: $status"
+                viewModel.setIsInternetAvailable(true)
+                lifecycleScope.launch {
+                    viewModel.movieList.collect { pagingData ->
+                        binding.moviesProgress.isVisible = false
+                        movieAdapter.submitData(pagingData)
+                    }
+                }
+            }
+            ConnectivityObserver.Status.Lost -> {
+                binding.networkStatusTextView.text = "Network status: $status"
+                viewModel.setIsInternetAvailable(false)
+
+            }
+            ConnectivityObserver.Status.Unavailable -> {
+                binding.networkStatusTextView.text = "Network status: $status"
+                viewModel.setIsInternetAvailable(false)
+
+            }
+            ConnectivityObserver.Status.Losing -> {
+                binding.networkStatusTextView.text = "Network status: $status"
+                viewModel.setIsInternetAvailable(false)
+
+            }
+        }
+    }
 }

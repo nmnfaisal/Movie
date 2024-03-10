@@ -11,23 +11,20 @@ import com.noman.movie.databinding.ViewHolderMovieBinding
 
 class MoviePagingAdapter : PagingDataAdapter<Movie, MoviePagingAdapter.MyViewHolder>(DIFF_UTIL) {
 
-
-    var onCLick: ((String) -> Unit)? = null
+    private var onCLick: ((Movie) -> Unit)? = null
 
     companion object {
         val DIFF_UTIL = object : DiffUtil.ItemCallback<Movie>() {
             override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
                 return oldItem.id == newItem.id
             }
-
             override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
                 return oldItem == newItem
             }
         }
     }
 
-
-    fun onMovieClick(listener: (String) -> Unit) {
+    fun onMovieClick(listener: (Movie) -> Unit) {
         onCLick = listener
     }
 
@@ -36,15 +33,14 @@ class MoviePagingAdapter : PagingDataAdapter<Movie, MoviePagingAdapter.MyViewHol
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = getItem(position)
-
         holder.viewDataBinding.setVariable(BR.movie, getItem(position))
-
         holder.viewDataBinding.root.setOnClickListener {
             onCLick?.let {
-                it(data?.id.toString()!!)
+                if (data != null) {
+                    it(data)
+                }
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

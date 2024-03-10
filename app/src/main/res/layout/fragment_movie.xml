@@ -32,12 +32,21 @@
 
         </com.google.android.material.appbar.MaterialToolbar>
 
+        <TextView
+            android:id="@+id/networkStatusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Network status: Unavailable"
+            android:layout_below="@+id/movie_toolbar"
+            android:textSize="20sp"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movie_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/movie_toolbar"
+            android:layout_below="@+id/networkStatusTextView"
             tools:listitem="@layout/view_holder_movie" />
 
         <ProgressBar

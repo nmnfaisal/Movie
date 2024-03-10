@@ -2,12 +2,16 @@ package com.noman.movie.ui.screens.movies
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.noman.movie.data.remote.client.MovieService
 import com.noman.movie.data.remote.dto.Movie
-import com.noman.movie.utils.Constants
+import com.noman.movie.data.repository.MovieDetailsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 
-class MoviePaging(private val searchQuery: String, private val movieService: MovieService) :
-    PagingSource<Int, Movie>() {
+class MoviePaging(
+    private val searchQueryFlow: String,
+    private val movieRepository: MovieDetailsRepository,
+    private val isInternetAvailable: Boolean
+) : PagingSource<Int, Movie>() {
 
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let {
@@ -19,10 +23,20 @@ class MoviePaging(private val searchQuery: String, private val movieService: Mov
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         val page = params.key ?: 1
         return try {
-            val data = if (searchQuery.isNotEmpty()) {
-                movieService.searchMovies(Constants.API_KEY, searchQuery)
+            if (!isInternetAvailable) {
+                // If internet is not available, load movies from the database
+                val data = movieRepository.getAllMoviesFromDataBase()
+                return LoadResult.Page(
+                    data = data,
+                    prevKey = null,
+                    nextKey = null
+                )
+            }
+            val data = if (searchQueryFlow.isNotEmpty()) {
+                movieRepository.searchMovies(searchQueryFlow)
+
             } else {
-                movieService.getMovies(Constants.API_KEY)
+                movieRepository.getMoviesFromApi()
             }
             LoadResult.Page(
                 data = data.body()?.results!!,
