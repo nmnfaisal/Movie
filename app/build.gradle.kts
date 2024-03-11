@@ -97,16 +97,9 @@ dependencies {
      */
 
     // Hilt for testing
-    val hilt_testing_version = "2.42"
-    testImplementation ("com.google.dagger:hilt-android-testing:$hilt_testing_version")
-    kaptTest ("com.google.dagger:hilt-android-compiler:$hilt_testing_version")
-
-    // Hamcrest
-    testImplementation ("org.hamcrest:hamcrest-all:1.3")
-
-    //For runBlockingTest, CoroutineDispatcher etc.
-    val coroutines_test_version = "1.4.2"
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_test_version")
+    val hiltTestingVersion = "2.42"
+    testImplementation ("com.google.dagger:hilt-android-testing:$hiltTestingVersion")
+    kaptTest ("com.google.dagger:hilt-android-compiler:$hiltTestingVersion")
 
     // Junit
     testImplementation ("junit:junit:4.13.2")
@@ -117,5 +110,8 @@ dependencies {
     testImplementation ("androidx.test:core-ktx:1.4.0")
     testImplementation ("org.robolectric:robolectric:4.5.1")
     testImplementation ("androidx.arch.core:core-testing:2.1.0")
+    implementation ("com.squareup.okhttp3:mockwebserver3:5.0.0-alpha.2")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
 
 }
