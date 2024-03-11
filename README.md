@@ -2,6 +2,8 @@
 
 This test project contains all functionality that was requested in the document, along with some unit tests. More details are mentioned below.
 
+https://github.com/nmnfaisal/Movie/assets/45178766/f96dd8d8-d42a-426c-b475-7afd125281b8
+
 ### Developed Using
 - Kotlin
 - XML base UI
