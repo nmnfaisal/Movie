@@ -10,6 +10,10 @@ android {
     namespace = "com.noman.movie"
     compileSdk = 34
 
+    packagingOptions {
+        exclude("META-INF/LICENSE.md")
+    }
+
     defaultConfig {
         applicationId = "com.noman.movie"
         minSdk = 26
@@ -49,47 +53,43 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation ("com.google.ar:core:1.25.0")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 
     val ktxVersion = "1.8.0"
     implementation ("androidx.core:core-ktx:$ktxVersion")
 
-    val lifecycle_version = "2.5.1"
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+    val lifecycleVersion = "2.5.1"
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
 
-    val room_version = "2.5.1"
-    implementation ("androidx.room:room-runtime:$room_version")
-    kapt ("androidx.room:room-compiler:$room_version")
-    implementation ("androidx.room:room-ktx:$room_version")
+    val roomVersion = "2.5.1"
+    implementation ("androidx.room:room-runtime:$roomVersion")
+    kapt ("androidx.room:room-compiler:$roomVersion")
+    implementation ("androidx.room:room-ktx:$roomVersion")
 
-    val nav_version = "2.3.5"
-    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
+    val navVersion = "2.3.5"
+    implementation ("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation ("androidx.navigation:navigation-ui-ktx:$navVersion")
 
-    val hilt_version = "2.42"
-    implementation ("com.google.dagger:hilt-android:$hilt_version")
-    kapt ("com.google.dagger:hilt-android-compiler:$hilt_version")
+    val hiltVersion = "2.42"
+    implementation ("com.google.dagger:hilt-android:$hiltVersion")
+    kapt ("com.google.dagger:hilt-android-compiler:$hiltVersion")
     kapt ("androidx.hilt:hilt-compiler:1.0.0")
 
-    val retrofit_version = "2.9.0"
-    implementation ("com.squareup.retrofit2:retrofit:$retrofit_version")
-    implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    val retrofitVersion = "2.9.0"
+    implementation ("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
-    val okhttp_version = "4.7.2"
-    implementation ("com.squareup.okhttp3:okhttp:$okhttp_version")
-    implementation ("com.squareup.okhttp3:logging-interceptor:$okhttp_version")
+    val okhttpVersion = "4.7.2"
+    implementation ("com.squareup.okhttp3:okhttp:$okhttpVersion")
+    implementation ("com.squareup.okhttp3:logging-interceptor:$okhttpVersion")
 
-    val accompanist_version = "0.19.0"
-    implementation ("com.google.accompanist:accompanist-swiperefresh:$accompanist_version")
-    implementation ("com.google.accompanist:accompanist-pager-indicators:$accompanist_version")
+    val pagingVersion = "3.1.0"
+    implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
+    implementation("androidx.paging:paging-common-ktx:$pagingVersion")
 
-    val paging_version = "3.1.0"
-    implementation("androidx.paging:paging-runtime-ktx:$paging_version")
-    implementation("androidx.paging:paging-common-ktx:$paging_version")
-
-
-    val glide_version = "4.13.0"
-    implementation("com.github.bumptech.glide:glide:$glide_version")
-    kapt("com.github.bumptech.glide:compiler:$glide_version")
+    val glideVersion = "4.13.0"
+    implementation("com.github.bumptech.glide:glide:$glideVersion")
+    kapt("com.github.bumptech.glide:compiler:$glideVersion")
 
 
     /**

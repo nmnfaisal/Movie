@@ -4,7 +4,7 @@ package com.noman.movie.utils
 class Events<out T>(private val content: T) {
 
 
-    var hasBeenHandled = false
+    private var hasBeenHandled = false
 
     fun getContentIfNotHandled(): T? {
         return if (!hasBeenHandled) {

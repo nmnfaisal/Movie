@@ -36,10 +36,6 @@ class MovieDetailsRepository
         }
     }
 
-    fun getMovieDetailsObject(): MovieDetails {
-        return movieDetails
-    }
-
     fun getAllMoviesFromDataBase(): List<Movie> {
         return movieDao.getAllMovies()
     }

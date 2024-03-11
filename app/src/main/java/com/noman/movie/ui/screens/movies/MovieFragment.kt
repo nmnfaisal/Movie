@@ -38,7 +38,10 @@ class MovieFragment : Fragment() {
         setRecyclerView()
         connectivityObserver = NetworkConnectivityObserver(requireContext().applicationContext)
         observeConnectivity()
+        init()
+    }
 
+    private fun init(){
         lifecycleScope.launch {
             viewModel.movieList.collect { pagingData ->
                 binding.moviesProgress.isVisible = false

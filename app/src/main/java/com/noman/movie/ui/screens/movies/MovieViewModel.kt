@@ -55,7 +55,6 @@ class MovieViewModel
                 e.printStackTrace()
             }
         }
-//        _movieDetails.emit(Events(Result(Status.LOADING, null, null)))
         _movieDetails.emit(Events(movieDetails))
     }
 
