@@ -42,6 +42,5 @@ Separate Data classes have been made for each layer and data source.
 
 https://developer.android.com/training/data-storage/room/testing-db
 
-**A separate branch for compose implementation is made after submitting test :**
-
+## A separate branch for compose implementation is made after submitting test
 Converting UI from XML to Compose is in progress...
