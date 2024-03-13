@@ -6,7 +6,8 @@ https://github.com/nmnfaisal/Movie/assets/45178766/f96dd8d8-d42a-426c-b475-7afd1
 
 ### Developed Using
 - Kotlin
-- XML base UI
+- MVVM
+- Repository Pattern
 - Hilt
 - ViewModel
 - Coroutines 
@@ -41,3 +42,6 @@ Separate Data classes have been made for each layer and data source.
 
 https://developer.android.com/training/data-storage/room/testing-db
 
+**A separate branch for compose implementation is made after submitting test :**
+
+Converting UI from XML to Compose is in progress...
