@@ -3,13 +3,11 @@ package com.noman.movie.ui.screens.movies
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.noman.movie.data.remote.dto.Movie
-import com.noman.movie.data.repository.MovieDetailsRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
+import com.noman.movie.data.repository.MovieRepository
 
 class MoviePaging(
     private val searchQueryFlow: String,
-    private val movieRepository: MovieDetailsRepository,
+    private val movieRepository: MovieRepository,
     private val isInternetAvailable: Boolean
 ) : PagingSource<Int, Movie>() {
 

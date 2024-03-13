@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.ByteArrayOutputStream
-
+@Entity(tableName = "MOVIE_DETAILS")
 data class MovieDetails(
     val adult: Boolean,
     val backdrop_path: String,

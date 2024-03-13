@@ -36,16 +36,25 @@ class MovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.moviesProgress.isVisible = true
         setRecyclerView()
-        connectivityObserver = NetworkConnectivityObserver(requireContext().applicationContext)
-        observeConnectivity()
+        viewModel.observeConnectivity(requireContext().applicationContext)
+//        observeConnectivity()
         init()
     }
 
-    private fun init(){
+    private fun init() {
+
         lifecycleScope.launch {
-            viewModel.movieList.collect { pagingData ->
-                binding.moviesProgress.isVisible = false
-                movieAdapter.submitData(pagingData)
+            viewModel.internetStatus.collect{ status ->
+                updateNetworkStatus(status)
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.isLoading.collect { isLoading ->
+                binding.moviesProgress.isVisible = isLoading
+                viewModel.movieList.collect { pagingData ->
+                    movieAdapter.submitData(pagingData)
+                }
             }
         }
 
@@ -79,44 +88,15 @@ class MovieFragment : Fragment() {
         }
     }
 
-    private fun observeConnectivity() {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                connectivityObserver.observe()
-                    .collect { status ->
-                        updateNetworkStatus(status)
-                    }
-            }
-        }
-    }
-
     private fun updateNetworkStatus(status: ConnectivityObserver.Status) {
-        when (status) {
-            ConnectivityObserver.Status.Available -> {
-                binding.networkStatusTextView.text = "Network status: $status"
-                viewModel.setIsInternetAvailable(true)
-                lifecycleScope.launch {
-                    viewModel.movieList.collect { pagingData ->
-                        binding.moviesProgress.isVisible = false
-                        movieAdapter.submitData(pagingData)
-                    }
+        binding.networkStatusTextView.text = "Network status: $status"
+            lifecycleScope.launch {
+                viewModel.movieList.collect { pagingData ->
+                    binding.moviesProgress.isVisible = false
+                    movieAdapter.submitData(pagingData)
                 }
             }
-            ConnectivityObserver.Status.Lost -> {
-                binding.networkStatusTextView.text = "Network status: $status"
-                viewModel.setIsInternetAvailable(false)
-
-            }
-            ConnectivityObserver.Status.Unavailable -> {
-                binding.networkStatusTextView.text = "Network status: $status"
-                viewModel.setIsInternetAvailable(false)
-
-            }
-            ConnectivityObserver.Status.Losing -> {
-                binding.networkStatusTextView.text = "Network status: $status"
-                viewModel.setIsInternetAvailable(false)
-
-            }
         }
-    }
+
+
 }

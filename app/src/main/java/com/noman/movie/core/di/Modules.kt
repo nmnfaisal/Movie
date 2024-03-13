@@ -6,7 +6,6 @@ import com.noman.movie.data.local.dao.MovieDao
 import com.noman.movie.data.local.database.AppDatabase
 import com.noman.movie.data.remote.client.MovieService
 import com.noman.movie.data.remote.client.RetrofitClient
-import com.noman.movie.data.repository.MovieDetailsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -29,11 +29,6 @@ object Modules{
     @Singleton
     fun providesMovieService(retrofit: Retrofit): MovieService {
         return retrofit.create(MovieService::class.java)
-    }
-
-    @Provides
-    fun provideMovieRepository(movieInterface: MovieService, movieDao: MovieDao): MovieDetailsRepository {
-        return MovieDetailsRepository(movieInterface, movieDao )
     }
 
     @Provides

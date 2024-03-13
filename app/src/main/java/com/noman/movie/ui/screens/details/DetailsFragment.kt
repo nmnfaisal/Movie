@@ -41,20 +41,8 @@ class DetailsFragment : Fragment() {
         viewModel.getMovieDetails(args.movie)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.movieDetails.collect { event ->
-                when (event.getContentIfNotHandled()?.status) {
-                    Status.LOADING -> {
-                        binding.detailsProgress.visibility = View.VISIBLE
-                    }
-                    Status.ERROR -> {
-                        binding.detailsProgress.visibility = View.GONE
-                    }
-                    Status.SUCCESS -> {
-                        binding.detailsProgress.visibility = View.GONE
-                        binding.movieDetails = event.peekContent().data
-                    }
-                    else -> {}
-                }
+            viewModel.movieDetails.collect {
+                binding.movieDetails = viewModel.getMoviesDetailsFromDataBase(args.movie)
             }
         }
 
