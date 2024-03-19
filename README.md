@@ -1,4 +1,4 @@
-# Small World Test
+# Movie App
 
 This test project contains all functionality that was requested in the document, along with some unit tests. More details are mentioned below.
 
